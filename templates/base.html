@@ -31,15 +31,35 @@
     </div>
 
     <ul class="nav-right">
-      <li>
-        <button aria-label="Usuario" class="icon-btn user-btn" type="button">
-          <!-- Icono usuario -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b5e4d" stroke-width="2" viewBox="0 0 24 24" width="24" height="24" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="7" r="4"/>
-            <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
-          </svg>
-        </button>
+      <li class="user-dropdown">
+            {% if messages %}
+              <div class="user-message">
+                {% for message in messages %}
+                  <p class="alert {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          <button aria-label="Usuario" class="icon-btn user-btn" type="button" onclick="toggleUserMenu()">
+            <!-- Icono usuario -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b5e4d" stroke-width="2" viewBox="0 0 24 24" width="24" height="24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="7" r="4"/>
+              <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
+            </svg>
+          </button>
+
+          <div id="userMenu" class="user-menu hidden">
+            {% if request.user.is_authenticated %}
+              <p class="welcome-msg">Bienvenido, {{ request.user.username }}</p>
+              <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+              <a href="{% url 'login' %}">Iniciar sesión</a>
+              <a href="{% url 'registro' %}">Registrarse</a>
+            {% endif %}
+
+          </div>
       </li>
+
+
       <li>
         <button aria-label="Buscar" class="icon-btn search-btn" type="button">
           <!-- Icono lupa -->

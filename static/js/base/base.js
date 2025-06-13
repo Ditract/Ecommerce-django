@@ -112,11 +112,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Actualizar el badge del carrito (opcional)
+  // Actualizar el badge del carrito
   function updateCartBadge(itemCount) {
     const badge = document.querySelector('.cart-badge');
     if (badge) {
       badge.textContent = itemCount;
     }
+  }
+});
+
+
+
+// dropdown de inicio de sesión y cierre
+function toggleUserMenu() {
+  const menu = document.getElementById('userMenu');
+  menu.classList.toggle('hidden');
+}
+
+document.addEventListener('click', function(event) {
+  const btn = document.querySelector('.user-btn');
+  const menu = document.getElementById('userMenu');
+  if (!btn.contains(event.target) && !menu.contains(event.target)) {
+    menu.classList.add('hidden');
+  }
+});
+
+
+
+// Desaparecer mensaje django al pasar unos segundos
+document.addEventListener('DOMContentLoaded', function() {
+  const userMessage = document.querySelector('.user-message');
+  if (userMessage) {
+    setTimeout(() => {
+      userMessage.classList.add('fade-out');
+      setTimeout(() => {
+        userMessage.style.display = 'none';
+      }, 500);
+    }, 4000);
   }
 });
