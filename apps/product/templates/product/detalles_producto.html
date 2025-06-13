@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/productos/detalles_producto.css' %}">
+{% endblock extra_css %}
+
+
+{% block content %}
+<div class="detalle-container">
+  <div class="detalle-grid">
+
+    <!-- Imagen principal del producto -->
+    <div class="detalle-imagen">
+      <img src="{{ producto.image.url }}" alt="{{ producto.name }}">
+    </div>
+
+    <!-- Información del producto -->
+    <div class="detalle-info">
+      <h1 class="detalle-nombre">{{ producto.name }}</h1>
+      <p class="detalle-precio">{{ producto.price }} €</p>
+
+      <p class="detalle-disponibilidad">
+        {% if producto.active %}
+          <span class="disponible">Disponible</span>
+        {% else %}
+          <span class="no-disponible">Agotado</span>
+        {% endif %}
+      </p>
+
+      <p class="detalle-descripcion">{{ producto.description }}</p>
+
+      <ul class="detalle-datos">
+        <li><strong>Género:</strong> {{ producto.get_gender_display }}</li>
+        <li><strong>Categoría:</strong> {{ producto.category }}</li>
+      </ul>
+
+      <!-- Selector de cantidad -->
+      <div class="detalle-cantidad">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" value="1">
+      </div>
+
+      <!-- Botón agregar al carrito -->
+    <a class="agregar-carrito" href="{% url 'cart:cart_add' producto.id %}">Agregar al carrito</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% load thumbnail %}
+{% if cart.items.exists %}
+  <ul class="cart-items">
+    {% for item in cart.items.all %}
+      <li class="cart-item">
+        <div class="cart-item-details">
+          <!-- Imagen del producto -->
+          <div class="cart-item-image">
+            {% if item.product.image %}
+              {% thumbnail item.product.image "300x300" crop="center" as im %}
+                <img src="{{ im.url }}" alt="{{ item.product.name }}" loading="lazy"
+                     width="{{ im.width }}" height="{{ im.height }}">
+              {% endthumbnail %}
+            {% endif %}
+
+          </div>
+
+          <!-- Información del producto -->
+          <div class="cart-item-info">
+            <h4>{{ item.product.name }}</h4>
+            <p class="cart-item-price">
+              Precio: <span class="price-value">${{ item.price }}</span>
+            </p>
+            <p class="cart-quantity-control">
+              <span class="cart-quantity-label">Cantidad:</span>
+              <form action="{% url 'cart:cart_update' item.id %}" method="post" class="cart-update-form">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" class="cart-quantity-input">
+                <button type="submit" class="cart-update-btn">Actualizar</button>
+              </form>
+            </p>
+            <p class="cart-subtotal">
+              Subtotal: <span class="subtotal-value">${{ item.subtotal }}</span>
+            </p>
+          </div>
+
+          <!-- Acciones del item -->
+          <div class="cart-item-actions">
+            <a href="{% url 'cart:cart_remove' item.id %}" class="remove-item">Eliminar</a>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="cart-total">
+    <h3>Total: ${{ cart.total }}</h3>
+    <a href="{% url 'cart:cart_detail' %}" class="view-cart-btn">Ir al Carrito</a>
+    <!-- Comentado hasta que implementes checkout -->
+    <!-- <a href="#" class="checkout-btn">Proceder al Pago</a> -->
+  </div>
+{% else %}
+  <div class="cart-empty">
+    <p>Aún no hay productos en el carrito.</p>
+    <a href="{% url 'cart:cart_detail' %}" class="view-cart-btn">Ir al Carrito</a>
+  </div>
+{% endif %}

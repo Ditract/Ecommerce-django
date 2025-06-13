@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/productos/listado.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="productos-container">
+  <!-- SIDEBAR DE CATEGORÍAS -->
+  <aside class="sidebar">
+    <h2 class="sidebar-title">Categorías</h2>
+    <ul class="categoria-lista">
+      {% for categoria in categorias %}
+        <li class="{% if categoria_actual and categoria.id == categoria_actual.id %}activo{% endif %}">
+          <a href="{% url 'productos_por_categoria' genero_actual categoria.id %}">{{ categoria.name }}</a>
+        </li>
+      {% empty %}
+        <li>No hay categorías disponibles.</li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="productos-main">
+    <div class="ordenar">
+      <label for="orden">Ordenar por:</label>
+      <select id="orden" name="orden">
+        <option value="precio_asc">Precio: Menor a mayor</option>
+        <option value="precio_desc">Precio: Mayor a menor</option>
+      </select>
+    </div>
+
+    <!-- LISTA DE PRODUCTOS -->
+    {% if productos %}
+      <div class="productos-grid">
+        {% for producto in productos %}
+          <div class="producto-card">
+            <div class="producto-img">
+              <a href="{% url 'detalles_producto' producto.slug %}">
+                {% thumbnail producto.image "300x300" crop="center" as im %}
+                  <img src="{{ im.url }}" alt="{{ producto.name }}" loading="lazy"
+                       width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+              </a>
+            </div>
+            <div class="producto-info">
+              <h3>{{ producto.name }}</h3>
+              <p class="descripcion">{{ producto.description }}</p>
+              <button class="ver-mas-btn">Ver más</button>
+              <p class="precio">{{ producto.price }} €</p>
+              <p class="genero"><strong>Género:</strong> {{ producto.get_gender_display }}</p>
+              <p class="genero"><strong>Categoría:</strong> {{ producto.category }}</p>
+              <p class="disponibilidad">
+                {% if producto.active %}
+                  <span class="disponible">Disponible</span>
+                {% else %}
+                  <span class="no-disponible">Agotado</span>
+                {% endif %}
+              </p>
+              <a class="agregar-carrito" href="{% url 'cart:cart_add' producto.id %}">Agregar al carrito</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- PAGINACIÓN -->
+      <div class="paginacion">
+        <ul class="pagination">
+          {% if productos.has_previous %}
+            <li><a href="?page={{ productos.previous_page_number }}">« Anterior</a></li>
+          {% else %}
+            <li class="disabled"><span>« Anterior</span></li>
+          {% endif %}
+
+          {% for num in productos.paginator.page_range %}
+            {% if productos.number == num %}
+              <li class="active"><span>{{ num }}</span></li>
+            {% else %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if productos.has_next %}
+            <li><a href="?page={{ productos.next_page_number }}">Siguiente »</a></li>
+          {% else %}
+            <li class="disabled"><span>Siguiente »</span></li>
+          {% endif %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="no-productos">
+        <p>No hay stock de {{ categoria_actual.name|default:genero_nombre }} para {{ genero_nombre }}.</p>
+      </div>
+    {% endif %}
+  </main>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script src="{% static 'js/productos/listado_productos.js' %}"></script>
+{% endblock extra_js %}

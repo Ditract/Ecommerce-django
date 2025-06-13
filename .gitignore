@@ -1,0 +1,28 @@
+# Ignorar entorno virtual
+venv/
+
+# Ignorar base de datos local
+db.sqlite3
+
+# Archivos y carpetas de PyCharm
+.idea/
+
+# Archivos de migraciones (si los quieres ignorar)
+**/migrations/
+!*/migrations/__init__.py
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Archivos de media generados
+/media/
+
+# Configuraciones locales
+*.env
+.env

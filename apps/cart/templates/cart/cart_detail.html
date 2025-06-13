@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/cart/cart_detail.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="cart-container">
+  <div class="cart-header">
+    <h1 class="cart-title">Carrito de Compras</h1>
+    <p class="cart-subtitle">Revisa y gestiona tus productos</p>
+  </div>
+
+  {% if cart.items.exists %}
+    <div class="cart-content">
+      <div class="cart-items-section">
+        {% for item in cart.items.all %}
+          <div class="cart-item-card">
+            <div class="item-image">
+              {% if item.product.image %}
+                {% thumbnail item.product.image "300x300" crop="center" as im %}
+                  <img src="{{ im.url }}" alt="{{ item.product.name }}" loading="lazy"
+                       width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+              {% else %}
+                <div class="image-placeholder">
+                  <span class="placeholder-icon">📦</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="item-details">
+              <h3 class="item-name">{{ item.product.name }}</h3>
+              <p class="item-price">
+                <span class="price-label">Precio unitario:</span>
+                <span class="price-value">${{ item.price }}</span>
+              </p>
+
+              <div class="quantity-section">
+                <label class="quantity-label">Cantidad:</label>
+                <form action="{% url 'cart:cart_update' item.id %}" method="post" class="quantity-form">
+                  {% csrf_token %}
+                  <div class="quantity-controls">
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" class="quantity-input">
+                    <button type="submit" class="update-btn">Actualizar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="item-summary">
+              <div class="subtotal">
+                <span class="subtotal-label">Subtotal</span>
+                <span class="subtotal-value">${{ item.subtotal }}</span>
+              </div>
+              <a href="{% url 'cart:cart_remove' item.id %}" class="remove-btn">
+                <span class="remove-icon">×</span>
+                Eliminar
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-card">
+          <h2 class="summary-title">Resumen del Pedido</h2>
+          <div class="summary-details">
+            <div class="summary-row">
+              <span>Subtotal ({{ cart.items.count }} producto{{ cart.items.count|pluralize }})</span>
+              <span>${{ cart.total }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Envío</span>
+              <span>Gratis</span>
+            </div>
+            <div class="summary-row total-row">
+              <span>Total</span>
+              <span class="total-amount">${{ cart.total }}</span>
+            </div>
+          </div>
+          <div class="checkout-actions">
+            <a href="#" class="checkout-btn">
+              <span class="btn-text">Proceder al Pago</span>
+              <span class="btn-icon">→</span>
+            </a>
+            <a href="{% url 'home' %}" class="continue-shopping">
+              Continuar Comprando
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="empty-cart">
+      <div class="empty-icon">🛒</div>
+      <h2 class="empty-title">Tu carrito está vacío</h2>
+      <p class="empty-description">Descubre nuestros productos y encuentra algo especial para ti</p>
+      <a href="{% url 'home' %}" class="shop-now-btn">
+        Explorar Productos
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sanez | Tienda de zapatos</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/base/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/cart/cart_sidebar.css' %}">
+
+  {% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-left">
+        <li class="{% if genero_actual == 'hombre' %}active{% endif %}">
+          <a href="{% url 'productos_genero' 'hombre' %}">Hombre</a>
+        </li>
+        <li class="{% if genero_actual == 'mujer' %}active{% endif %}">
+          <a href="{% url 'productos_genero' 'mujer' %}">Mujer</a>
+        </li>
+        <li class="{% if genero_actual == 'blog' %}active{% endif %}">
+          <a href="#">Blog</a>
+        </li>
+      </ul>
+
+
+    <div class="nav-logo">
+      <a href="{% url 'home' %}" class="logo">Sanez</a>
+    </div>
+
+    <ul class="nav-right">
+      <li>
+        <button aria-label="Usuario" class="icon-btn user-btn" type="button">
+          <!-- Icono usuario -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b5e4d" stroke-width="2" viewBox="0 0 24 24" width="24" height="24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
+          </svg>
+        </button>
+      </li>
+      <li>
+        <button aria-label="Buscar" class="icon-btn search-btn" type="button">
+          <!-- Icono lupa -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b5e4d" stroke-width="2" viewBox="0 0 24 24" width="24" height="24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </li>
+      <li>
+        <button aria-label="Carrito" class="icon-btn cart-btn" type="button">
+          <!-- Icono carrito -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b5e4d" stroke-width="2" viewBox="0 0 24 24" width="24" height="24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  {% block content %}{% endblock content %}
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h3>Sobre Nosotros</h3>
+        <p>Somos una tienda web dedicada a ofrecer la mejor moda para hombre y mujer.</p>
+      </div>
+      <div class="footer-section links">
+        <h3>Enlaces</h3>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Hombre</a></li>
+          <li><a href="#">Mujer</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h3>Contacto</h3>
+        <p>Email: soporte@tiendaw.com</p>
+        <p>Tel: +34 123 456 789</p>
+        <p>Dirección: Calle Falsa 123, Ciudad</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Tienda Web. Todos los derechos reservados.
+    </div>
+  </footer>
+
+<!--CARRITO DE COMPRAS-->
+<!-- Overlay oscuro -->
+<div id="cartOverlay" class="cart-overlay"></div>
+
+<!-- Sidebar del carrito -->
+<aside id="cartSidebar" class="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <h2>Tu Carrito</h2>
+    <button class="close-cart-btn" aria-label="Cerrar Carrito">×</button>
+  </div>
+  <div class="cart-sidebar-content">
+    <!-- Contenido inicial del carrito (se actualizará dinámicamente) -->
+    <div class="cart-loading">Cargando carrito...</div>
+  </div>
+</aside>
+
+  {% block extra_js %}{% endblock extra_js %}
+<script>
+  const cartDetailUrl = "{% url 'cart:cart_detail' %}";
+</script>
+ <script src="{% static 'js/base/base.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+<!--CSS adicional independiente del base-->
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/index/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- SLIDER -->
+<section class="inicio-slider">
+  {% for slide in slides %}
+  <div class="slide-item {% if forloop.first %}active{% endif %}">
+    {% if slide.imagen %}
+      {% thumbnail slide.imagen "1200x600" crop="center" as im %}
+        <img src="{{ im.url }}" loading="lazy" alt="{{ slide.title|default:'Slide' }}">
+      {% endthumbnail %}
+    {% endif %}
+
+    <div class="slide-text">
+      {% if slide.title %}
+        <h2>{{ slide.title }}</h2>
+      {% endif %}
+      {% if slide.description %}
+        <p>{{ slide.description }}</p>
+      {% endif %}
+      <!--<a href="#" class="boton-slide">Descubrir</a>-->
+    </div>
+  </div>
+  {% empty %}
+  <p>No hay slides disponibles.</p>
+  {% endfor %}
+
+
+  <!-- Botones para controlar slider -->
+  <button class="slider-btn prev-btn" aria-label="Anterior">&#10094;</button>
+  <button class="slider-btn next-btn" aria-label="Siguiente">&#10095;</button>
+</section>
+
+<!-- CATEGORÍAS -->
+<section class="inicio-categorias">
+  <div class="categoria-box">
+    <img src="{% static '/img/hombre_seccion.jpg' %}" alt="Hombre">
+    <a href="{% url 'productos_genero' 'hombre' %}" class="categoria-enlace">Hombre</a>
+  </div>
+  <div class="categoria-box">
+    <img src="{% static 'img/mujer_seccion.jpg' %}" alt="Mujer">
+    <a href="{% url 'productos_genero' 'mujer' %}" class="categoria-enlace">Mujer</a>
+  </div>
+</section>
+
+<!-- ÚLTIMOS PRODUCTOS AGREGADOS -->
+<!-- ÚLTIMOS PRODUCTOS AGREGADOS -->
+<section class="inicio-productos">
+  <h2 class="titulo-productos">Últimos agregados...</h2>
+  <div class="productos-grid">
+    {% for producto in ultimos_4_productos %}
+    <a href="{% url 'detalles_producto' producto.slug %}" class="producto-card">
+      {% thumbnail producto.image "300x200" crop="center" as im %}
+        <img src="{{ im.url }}" loading="lazy" width="{{ im.width }}" height="{{ im.height }}" alt="{{ producto.name }}">
+      {% endthumbnail %}
+
+      <p class="producto-nombre">{{ producto.name }}</p>
+      <p class="producto-precio">{{ producto.price }} €</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/index/index.js' %}"></script>
+{% endblock extra_js %}
