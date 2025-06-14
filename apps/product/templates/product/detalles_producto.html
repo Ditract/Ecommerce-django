@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-
 {% load static %}
-{% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/productos/detalles_producto.css' %}">
-{% endblock extra_css %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/productos/products.css' %}">
+{% endblock extra_css %}
 
 {% block content %}
 <div class="detalle-container">
@@ -35,14 +34,18 @@
         <li><strong>Categoría:</strong> {{ producto.category }}</li>
       </ul>
 
-      <!-- Selector de cantidad -->
-      <div class="detalle-cantidad">
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" min="1" value="1">
-      </div>
+      {% if producto.active %}
+      <!-- Formulario de agregar al carrito -->
+      <form action="{% url 'cart:cart_add' producto.id %}" method="post" class="cart-add-form">
+        {% csrf_token %}
+        <p class="cart-quantity-control">
+          <span class="cart-quantity-label">Cantidad:</span>
+          <input type="number" name="quantity" value="1" min="1" max="99" class="cart-quantity-input">
+          <button type="submit" class="cart-update-btn">Agregar al carrito</button>
+        </p>
+      </form>
+      {% endif %}
 
-      <!-- Botón agregar al carrito -->
-    <a class="agregar-carrito" href="{% url 'cart:cart_add' producto.id %}">Agregar al carrito</a>
     </div>
   </div>
 </div>

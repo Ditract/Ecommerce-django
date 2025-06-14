@@ -7,7 +7,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    readonly_fields = ("sku", "slug", "created", "updated")  # <-- Agregado slug
-    list_display = ('name', 'sku', 'price', 'category', 'gender', 'active', 'created')
-    search_fields = ('name', 'sku', 'slug')  # <-- Opcional, permite buscar por slug
-    list_filter = ('category', 'gender', 'active')
+    readonly_fields = ("sku", "slug", "created", "updated")
+    list_display = ('name', 'sku', 'price', 'stock' , 'category', 'gender', 'active', 'created', 'updated')
+    search_fields = ('name', 'sku', 'slug')  # <-- permite buscar por
+    list_filter = ('category', 'gender', 'active', 'price')

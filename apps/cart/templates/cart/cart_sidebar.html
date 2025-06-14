@@ -1,5 +1,7 @@
 {% load thumbnail %}
+
 {% if cart.items.exists %}
+  <div id="cartError" ></div>
   <ul class="cart-items">
     {% for item in cart.items.all %}
       <li class="cart-item">
@@ -12,7 +14,6 @@
                      width="{{ im.width }}" height="{{ im.height }}">
               {% endthumbnail %}
             {% endif %}
-
           </div>
 
           <!-- Información del producto -->
@@ -36,7 +37,7 @@
 
           <!-- Acciones del item -->
           <div class="cart-item-actions">
-            <a href="{% url 'cart:cart_remove' item.id %}" class="remove-item">Eliminar</a>
+            <a href="{% url 'cart:cart_remove' item.id %}" class="remove-item">Quitar del carrito</a>
           </div>
         </div>
       </li>

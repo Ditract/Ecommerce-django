@@ -40,6 +40,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='U')
+    stock = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -71,3 +72,12 @@ class Product(models.Model):
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+
+    @property
+    def is_available(self):
+        return self.active and self.stock > 0
+
+    @property
+    def is_low_stock(self):
+        return self.stock > 0 and self.stock < 3

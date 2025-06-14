@@ -3,12 +3,12 @@
 {% load thumbnail %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/productos/listado.css' %}">
+  <link rel="stylesheet" href="{% static 'css/productos/products.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
 <div class="productos-container">
-  <!-- SIDEBAR DE CATEGORÍAS -->
+  <!-- Barra lateral de categorías -->
   <aside class="sidebar">
     <h2 class="sidebar-title">Categorías</h2>
     <ul class="categoria-lista">
@@ -22,7 +22,7 @@
     </ul>
   </aside>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- Contenido principal -->
   <main class="productos-main">
     <div class="ordenar">
       <label for="orden">Ordenar por:</label>
@@ -32,7 +32,7 @@
       </select>
     </div>
 
-    <!-- LISTA DE PRODUCTOS -->
+    <!-- Lista de productos -->
     {% if productos %}
       <div class="productos-grid">
         {% for producto in productos %}
@@ -53,19 +53,30 @@
               <p class="genero"><strong>Género:</strong> {{ producto.get_gender_display }}</p>
               <p class="genero"><strong>Categoría:</strong> {{ producto.category }}</p>
               <p class="disponibilidad">
-                {% if producto.active %}
+                {% if producto.is_available %}
                   <span class="disponible">Disponible</span>
+                  {% if producto.is_low_stock %}
+                    <p class="bajas-unidades">¡Quedan pocas unidades!</p>
+                  {% endif %}
                 {% else %}
                   <span class="no-disponible">Agotado</span>
                 {% endif %}
               </p>
-              <a class="agregar-carrito" href="{% url 'cart:cart_add' producto.id %}">Agregar al carrito</a>
+            {% if producto.is_available %}
+              <form action="{% url 'cart:cart_add' producto.id %}" method="post" class="form-agregar-carrito">
+                {% csrf_token %}
+                <button type="submit" class="agregar-carrito">Agregar al carrito</button>
+              </form>
+            {% else %}
+              <button class="agregar-carrito-disabled" disabled>Agotado</button>
+            {% endif %}
+
             </div>
           </div>
         {% endfor %}
       </div>
 
-      <!-- PAGINACIÓN -->
+      <!-- Paginación -->
       <div class="paginacion">
         <ul class="pagination">
           {% if productos.has_previous %}

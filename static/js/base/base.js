@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartBadge(data.cart_items);
             cartSidebar.classList.add('open'); // Abre el aside automáticamente
             cartOverlay.classList.add('show');
+          } else {
+            // ⚠️ Mostrar error si el stock es insuficiente
+            alert(data.error || 'No se pudo agregar al carrito.');
           }
         })
         .catch(error => {
@@ -65,52 +68,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Actualizar y eliminar ítems
-  function attachEventListeners() {
-    const updateForms = document.querySelectorAll('.cart-update-form');
-    const removeLinks = document.querySelectorAll('.remove-item');
 
-    updateForms.forEach(form => {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              loadCartContent();
-              updateCartBadge(data.cart_items);
-            }
-          })
-          .catch(error => {
-            console.error('Error updating cart:', error);
-          });
-      });
-    });
+// Actualizar y eliminar ítems
+function attachEventListeners() {
+  const updateForms = document.querySelectorAll('.cart-update-form');
+  const removeLinks = document.querySelectorAll('.remove-item');
 
-    removeLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        fetch(link.href, {
-          headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              loadCartContent();
-              updateCartBadge(data.cart_items);
+  updateForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(response => response.json())
+        .then(data => {
+          const errorBox = document.getElementById('cartError');
+
+          if (data.success) {
+            if (errorBox) {
+              errorBox.innerHTML = ''; // Limpiar errores anteriores
             }
-          })
-          .catch(error => {
-            console.error('Error removing item:', error);
-          });
-      });
+            loadCartContent();
+            updateCartBadge(data.cart_items);
+          } else if (data.error) {
+            if (errorBox) {
+              errorBox.innerHTML = `
+                <div class="user-message">
+                  <p class="alert error">${data.error}</p>
+                </div>
+              `;
+              errorBox.style.display = 'block';
+
+              setTimeout(() => {
+                errorBox.innerHTML = '';
+                errorBox.style.display = 'none';
+              }, 4000);
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error updating cart:', error);
+        });
     });
-  }
+  });
+
+  removeLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      fetch(link.href, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            loadCartContent();
+            updateCartBadge(data.cart_items);
+          }
+        })
+        .catch(error => {
+          console.error('Error removing item:', error);
+        });
+    });
+  });
+}
+
+
 
   // Actualizar el badge del carrito
   function updateCartBadge(itemCount) {
