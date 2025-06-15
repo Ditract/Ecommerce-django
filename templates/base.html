@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sanez | Tienda de zapatos</title>
+  <title>Demo || Tienda de zapatos</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/base/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/cart/cart_sidebar.css' %}">
 
   {% block extra_css %}{% endblock extra_css %}
 </head>
 <body>
-
+<!--NAVBAR-->
   <nav class="navbar">
     <ul class="nav-left">
         <li class="{% if genero_actual == 'hombre' %}active{% endif %}">
@@ -20,19 +19,16 @@
         <li class="{% if genero_actual == 'mujer' %}active{% endif %}">
           <a href="{% url 'productos_genero' 'mujer' %}">Mujer</a>
         </li>
-        <li class="{% if genero_actual == 'blog' %}active{% endif %}">
-          <a href="#">Blog</a>
-        </li>
       </ul>
 
 
     <div class="nav-logo">
-      <a href="{% url 'home' %}" class="logo">Sanez</a>
+      <a href="{% url 'home' %}" class="logo">Demo</a>
     </div>
 
     <ul class="nav-right">
       <li class="user-dropdown">
-            {% if messages %}
+            {% if messages and request.resolver_match.url_name != 'login' %}
               <div class="user-message">
                 {% for message in messages %}
                   <p class="alert {{ message.tags }}">{{ message }}</p>
@@ -50,6 +46,7 @@
           <div id="userMenu" class="user-menu hidden">
             {% if request.user.is_authenticated %}
               <p class="welcome-msg">Bienvenido, {{ request.user.username }}</p>
+              <a href="#" >Perfil</a>
               <a href="{% url 'logout' %}">Cerrar sesión</a>
             {% else %}
               <a href="{% url 'login' %}">Iniciar sesión</a>

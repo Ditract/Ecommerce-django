@@ -1,7 +1,6 @@
 {% load thumbnail %}
 
 {% if cart.items.exists %}
-  <div id="cartError" ></div>
   <ul class="cart-items">
     {% for item in cart.items.all %}
       <li class="cart-item">
@@ -24,12 +23,15 @@
             </p>
             <p class="cart-quantity-control">
               <span class="cart-quantity-label">Cantidad:</span>
-              <form action="{% url 'cart:cart_update' item.id %}" method="post" class="cart-update-form">
+              <form action="{% url 'cart:cart_update' item.id %}" method="post" class="cart-update-form" data-item-id="{{ item.id }}">
                 {% csrf_token %}
                 <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" class="cart-quantity-input">
                 <button type="submit" class="cart-update-btn">Actualizar</button>
               </form>
             </p>
+              <!--Mensaje de error por stock insuficiente-->
+            <div id="cartError-{{ item.id }}" class="cart-error"></div>
+
             <p class="cart-subtotal">
               Subtotal: <span class="subtotal-value">${{ item.subtotal }}</span>
             </p>
@@ -47,7 +49,7 @@
   <div class="cart-total">
     <h3>Total: ${{ cart.total }}</h3>
     <a href="{% url 'cart:cart_detail' %}" class="view-cart-btn">Ir al Carrito</a>
-    <!-- Comentado hasta que implementes checkout -->
+    <!-- Comentado hasta implementar checkout -->
     <!-- <a href="#" class="checkout-btn">Proceder al Pago</a> -->
   </div>
 {% else %}

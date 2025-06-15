@@ -12,6 +12,17 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Password" required>
 
+        {% if messages %}
+          <div class="user-message">
+            {% for message in messages %}
+              <p class="alert {{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <br>
         <input type="submit" value="Entrar">
+
+
+
     </form>
 {% endblock content %}

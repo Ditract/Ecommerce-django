@@ -42,7 +42,7 @@ def login_view(request):
             messages.success(request, f'Bienvenido, {user.username}')
             return redirect('home')
         else:
-            messages.error(request, 'Usuario o contraseña incorrectos.')
+            messages.error(request, 'El usuario o la contraseña incorrectos.')
 
     return render(request, 'users/login.html')
 

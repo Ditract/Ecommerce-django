@@ -1,10 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initCartUI();
+  initUserDropdown();
+  initFlashMessageFadeout();
+});
+
+// -------------------
+// Inicialización del carrito
+// -------------------
+function initCartUI() {
   const cartBtn = document.querySelector('.cart-btn');
   const cartSidebar = document.getElementById('cartSidebar');
   const cartOverlay = document.getElementById('cartOverlay');
   const closeCartBtn = document.querySelector('.close-cart-btn');
 
-  // Abrir/cerrar carrito
+  if (!cartBtn || !cartSidebar || !cartOverlay || !closeCartBtn) return;
+
   cartBtn.addEventListener('click', () => {
     cartSidebar.classList.add('open');
     cartOverlay.classList.add('show');
@@ -14,39 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
   closeCartBtn.addEventListener('click', closeCart);
   cartOverlay.addEventListener('click', closeCart);
 
+  // Cerrar el carrito
   function closeCart() {
     cartSidebar.classList.remove('open');
     cartOverlay.classList.remove('show');
   }
 
-  // ✅ Cargar contenido del carrito con el header necesario
-  function loadCartContent() {
-    fetch(cartDetailUrl, {
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then(html => {
-        document.querySelector('.cart-sidebar-content').innerHTML = html;
-        attachEventListeners();
-      })
-      .catch(error => {
-        console.error('Error loading cart content:', error);
-        document.querySelector('.cart-sidebar-content').innerHTML = '<p>Error al cargar el carrito.</p>';
-      });
-  }
-
-  // Agregar producto al carrito
+  // Agregar producto desde botón
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('add-to-cart')) {
-      e.preventDefault(); // Evita la redirección
+      e.preventDefault();
       const url = e.target.href;
+
       fetch(url, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
       })
@@ -55,10 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
           if (data.success) {
             loadCartContent();
             updateCartBadge(data.cart_items);
-            cartSidebar.classList.add('open'); // Abre el aside automáticamente
+            cartSidebar.classList.add('open');
             cartOverlay.classList.add('show');
           } else {
-            // ⚠️ Mostrar error si el stock es insuficiente
             alert(data.error || 'No se pudo agregar al carrito.');
           }
         })
@@ -67,9 +55,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
   });
+}
 
+// -------------------
+// Cargar contenido dinámico del carrito
+// -------------------
+function loadCartContent() {
+  fetch(cartDetailUrl, {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return response.text();
+    })
+    .then(html => {
+      const container = document.querySelector('.cart-sidebar-content');
+      if (container) {
+        container.innerHTML = html;
+        attachEventListeners(); // <- Importante: volver a enlazar eventos
+      }
+    })
+    .catch(error => {
+      console.error('Error loading cart content:', error);
+      const container = document.querySelector('.cart-sidebar-content');
+      if (container) {
+        container.innerHTML = '<p>Error al cargar el carrito.</p>';
+      }
+    });
+}
 
-// Actualizar y eliminar ítems
+// -------------------
+// Actualizar/eliminar ítems del carrito
+// -------------------
 function attachEventListeners() {
   const updateForms = document.querySelectorAll('.cart-update-form');
   const removeLinks = document.querySelectorAll('.remove-item');
@@ -78,6 +97,8 @@ function attachEventListeners() {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(form);
+      const itemId = form.dataset.itemId;
+
       fetch(form.action, {
         method: 'POST',
         body: formData,
@@ -85,28 +106,27 @@ function attachEventListeners() {
       })
         .then(response => response.json())
         .then(data => {
-          const errorBox = document.getElementById('cartError');
+          const errorBox = document.getElementById(`cartError-${itemId}`);
 
           if (data.success) {
             if (errorBox) {
-              errorBox.innerHTML = ''; // Limpiar errores anteriores
+              errorBox.innerHTML = '';
+              errorBox.style.display = 'none';
             }
             loadCartContent();
             updateCartBadge(data.cart_items);
-          } else if (data.error) {
-            if (errorBox) {
-              errorBox.innerHTML = `
-                <div class="user-message">
-                  <p class="alert error">${data.error}</p>
-                </div>
-              `;
-              errorBox.style.display = 'block';
+          } else if (data.error && errorBox) {
+            errorBox.innerHTML = `
+              <div class="user-message">
+                <p class="alert error">${data.error}</p>
+              </div>
+            `;
+            errorBox.style.display = 'block';
 
-              setTimeout(() => {
-                errorBox.innerHTML = '';
-                errorBox.style.display = 'none';
-              }, 4000);
-            }
+            setTimeout(() => {
+              errorBox.innerHTML = '';
+              errorBox.style.display = 'none';
+            }, 4000);
           }
         })
         .catch(error => {
@@ -135,37 +155,41 @@ function attachEventListeners() {
   });
 }
 
-
-
-  // Actualizar el badge del carrito
-  function updateCartBadge(itemCount) {
-    const badge = document.querySelector('.cart-badge');
-    if (badge) {
-      badge.textContent = itemCount;
-    }
+// -------------------
+// Actualizar badge de ítems del carrito
+// -------------------
+function updateCartBadge(itemCount) {
+  const badge = document.querySelector('.cart-badge');
+  if (badge) {
+    badge.textContent = itemCount;
   }
-});
-
-
-
-// dropdown de inicio de sesión y cierre
-function toggleUserMenu() {
-  const menu = document.getElementById('userMenu');
-  menu.classList.toggle('hidden');
 }
 
-document.addEventListener('click', function(event) {
-  const btn = document.querySelector('.user-btn');
+// -------------------
+//  Dropdown de usuario
+// -------------------
+function initUserDropdown() {
+  const userBtn = document.querySelector('.user-btn');
   const menu = document.getElementById('userMenu');
-  if (!btn.contains(event.target) && !menu.contains(event.target)) {
-    menu.classList.add('hidden');
-  }
-});
 
+  if (!userBtn || !menu) return;
 
+  userBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.classList.toggle('hidden');
+  });
 
-// Desaparecer mensaje django al pasar unos segundos
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('click', (event) => {
+    if (!userBtn.contains(event.target) && !menu.contains(event.target)) {
+      menu.classList.add('hidden');
+    }
+  });
+}
+
+// -------------------
+// Desvanecer mensajes de Django
+// -------------------
+function initFlashMessageFadeout() {
   const userMessage = document.querySelector('.user-message');
   if (userMessage) {
     setTimeout(() => {
@@ -173,6 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => {
         userMessage.style.display = 'none';
       }, 500);
-    }, 4000);
+    }, 3000);
   }
-});
+}

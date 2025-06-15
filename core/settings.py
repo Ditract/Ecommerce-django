@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.product',
     'sorl.thumbnail',
     'apps.cart',
+    'apps.shipping',
+    'apps.orders',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.cart.middleware.SaveSessionKeyBeforeLoginMiddleware'
 ]
 
 ROOT_URLCONF = 'core.urls'
