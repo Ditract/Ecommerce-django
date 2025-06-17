@@ -65,11 +65,19 @@ class Payment(models.Model):
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default='PEN')
     transaction_id = models.CharField(max_length=100, null=True, blank=True)
     paid_at = models.DateTimeField(auto_now_add=True)
-    comprobante = models.ImageField(upload_to='comprobantes/', null=True, blank=True)
+    comprobante = models.ImageField(upload_to='comprobantes/%Y/%m/%d/', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Pago'
         verbose_name_plural = 'Pagos'
+        # NUEVA RESTRICCIÓN: Solo un pago pendiente por orden
+        constraints = [
+            models.UniqueConstraint(
+                fields=['order', 'status'],
+                condition=models.Q(status='PEN'),
+                name='unique_pending_payment_per_order'
+            )
+        ]
 
     def __str__(self):
         return f"{self.get_method_display()} - {self.amount} COP - {self.get_status_display()}"

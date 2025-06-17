@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center py-5">
+  <h2>¡Gracias por tu compra!</h2>
+  <p>Estamos validando tu pago. Te notificaremos por correo cuando sea aprobado.</p>
+  <a href="{% url 'home' %}" class="btn btn-primary mt-4">Volver al inicio</a>
+</div>
+{% endblock %}

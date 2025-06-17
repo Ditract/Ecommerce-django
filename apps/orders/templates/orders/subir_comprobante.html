@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="checkout-container">
+  <h2>Subir Comprobante de Pago</h2>
+  <p><strong>Pedido:</strong> {{ order.number }}</p>
+  <p><strong>Total a pagar:</strong> {{ order.total }} COP</p>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.method.label_tag }}<br>
+      {{ form.method }}
+    </div>
+
+    <div class="form-group">
+      {{ form.comprobante.label_tag }}<br>
+      {{ form.comprobante }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar Comprobante</button>
+  </form>
+</div>
+{% endblock %}
