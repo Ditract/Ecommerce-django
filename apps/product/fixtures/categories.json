@@ -1,0 +1,25 @@
+[
+  {
+    "model": "product.category",
+    "pk": 1,
+    "fields": {
+      "name": "Camisetas",
+      "description": "Categoría de camisetas",
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z"
+    }
+  },
+  {
+    "model": "product.category",
+    "pk": 2,
+    "fields": {
+      "name": "Pantalones",
+      "description": "Categoría de pantalones",
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z"
+    }
+  }
+]
+

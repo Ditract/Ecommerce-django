@@ -1,0 +1,75 @@
+[
+  {
+    "model": "product.product",
+    "pk": 1,
+    "fields": {
+      "name": "Camiseta Azul Hombre",
+      "description": "Camiseta cómoda y moderna",
+      "price": "25.50",
+      "category": 1,
+      "image": "products/camiseta_azul.jpg",
+      "gender": "M",
+      "stock": 10,
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z",
+      "sku": "CAM-AZ-H",
+      "slug": "camiseta-azul-hombre"
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 2,
+    "fields": {
+      "name": "Pantalón Negro Hombre",
+      "description": "Pantalón elegante",
+      "price": "40.00",
+      "category": 1,
+      "image": "products/pantalon_negro.jpg",
+      "gender": "M",
+      "stock": 15,
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z",
+      "sku": "PAN-NE-H",
+      "slug": "pantalon-negro-hombre"
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 3,
+    "fields": {
+      "name": "Camiseta Rosa Mujer",
+      "description": "Camiseta cómoda y moderna",
+      "price": "25.50",
+      "category": 1,
+      "image": "products/camiseta_rosa.jpg",
+      "gender": "F",
+      "stock": 10,
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z",
+      "sku": "CAM-RO-F",
+      "slug": "camiseta-rosa-mujer"
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 4,
+    "fields": {
+      "name": "Pantalón Azul Mujer",
+      "description": "Pantalón elegante",
+      "price": "40.00",
+      "category": 1,
+      "image": "products/pantalon_azul.jpg",
+      "gender": "F",
+      "stock": 15,
+      "active": true,
+      "created": "2025-09-08T00:00:00Z",
+      "updated": "2025-09-08T00:00:00Z",
+      "sku": "PAN-AZ-F",
+      "slug": "pantalon-azul-mujer"
+    }
+  }
+]
+

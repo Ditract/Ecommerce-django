@@ -1,0 +1,13 @@
+[
+  {
+    "model": "pages.slide",
+    "pk": 1,
+    "fields": {
+      "title": "Slide 1",
+      "description": "Bienvenido a la tienda",
+      "imagen": "slides/slide1.jpg",
+      "active": true
+    }
+  }
+]
+
