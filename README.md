@@ -75,7 +75,7 @@ mkdir media
 # ⚠️ Important: Load them in this order to avoid integrity issues.
 python manage.py loaddata apps/product/fixtures/categories.json
 python manage.py loaddata apps/product/fixtures/products.json
-python manage.py loaddata apps/slides/fixtures/slides.json
+python manage.py loaddata apps/pages/fixtures/slides.json
 
 # ⚠️ Note: These fixtures include product entries, but images are just placeholders and will not be visible.
 #       This is only to test functionality (product listing, details, cart, etc.).
