@@ -1,28 +1,49 @@
-# Ignorar entorno virtual
+# -----------------------------
+# Entorno virtual
+# -----------------------------
 venv/
 
-# Ignorar base de datos local
+# -----------------------------
+# Base de datos local
+# -----------------------------
 db.sqlite3
 
+# -----------------------------
 # Archivos y carpetas de PyCharm
+# -----------------------------
 .idea/
 
-# Archivos de migraciones (si los quieres ignorar)
-**/migrations/
-!*/migrations/__init__.py
+# -----------------------------
+# Migraciones
+# -----------------------------
+# Ignorar __pycache__ dentro de migrations
+**/migrations/__pycache__/
 
+# Mantener todos los archivos de migración
+# Ejemplo: 0001_initial.py, 0002_auto_*.py
+# No ignorar __init__.py
+!**/migrations/*.py
+
+# -----------------------------
 # Archivos temporales de Python
+# -----------------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
+# -----------------------------
 # Archivos de logs
+# -----------------------------
 *.log
 
-# Archivos de media generados
+# -----------------------------
+# Archivos de media generados (subidas de usuarios)
+# -----------------------------
 /media/
 
+# -----------------------------
 # Configuraciones locales
+# -----------------------------
 *.env
 .env
