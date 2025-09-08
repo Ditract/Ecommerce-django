@@ -35,11 +35,17 @@ A complete online store built with Django, featuring user registration, product 
 - 📑 List products by category and gender 
 - 🏷️ Display products as available or out of stock  
 - 💰 Shopping cart updates: quantity, subtotal, and stock adjustment after purchase  
-- 💻 Admin panel (default Django admin, basic configuration)  
-- ⚠️ Notes:
-  - Payment is currently done via manual proof (online payment gateway integration planned)  
-  - The app is desktop-focused and does not yet include fully responsive design  
-  - Additional sections and improvements are planned for future versions  
+- 💻 Admin panel (default Django admin, basic configuration)
+
+---
+
+## 📌 Future Improvements
+- Online payment integration (Stripe, PayPal, etc.)  
+- Responsive design for mobile and tablet  
+- Product search functionality  
+- Product reviews and ratings  
+- Email notifications and order tracking  
+- Additional product attributes and filters  
 
 ---
 
@@ -64,6 +70,22 @@ python manage.py migrate
 mkdir media
 # Django will automatically create subfolders like 'products/YYYY/MM/DD/' when images are uploaded
 # This folder must be in the project root and is ignored in GitHub to keep the repository lightweight
+
+# Load fixtures (optional) to test the functionality with example products
+# ⚠️ Important: Load them in this order to avoid integrity issues.
+python manage.py loaddata apps/product/fixtures/categories.json
+python manage.py loaddata apps/product/fixtures/products.json
+python manage.py loaddata apps/slides/fixtures/slides.json
+
+# ⚠️ Note: These fixtures include product entries, but images are just placeholders and will not be visible.
+#       This is only to test functionality (product listing, details, cart, etc.).
+#       You can view and manage real products and images via the Django admin.
+
+# Optional: Flush the database to remove fixtures and start fresh
+python manage.py flush
+# After flushing, you can add products manually using the Django admin panel, including real images.
+
+
 
 # Run the development server
 python manage.py runserver
