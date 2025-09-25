@@ -2,50 +2,47 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/productos/products.css' %}">
+  <link rel="stylesheet" href="{% static 'product/css/product_detail.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-<div class="detalle-container">
-  <div class="detalle-grid">
-
+<div class="detalle-container container py-4">
+  <div class="row g-4">
     <!-- Imagen principal del producto -->
-    <div class="detalle-imagen">
-      <img src="{{ producto.image.url }}" alt="{{ producto.name }}">
+    <div class="detalle-imagen col-lg-6 col-12">
+      <img src="{{ producto.image.url }}" alt="{{ producto.name }}" class="img-fluid rounded-md">
     </div>
 
     <!-- Información del producto -->
-    <div class="detalle-info">
-      <h1 class="detalle-nombre">{{ producto.name }}</h1>
-      <p class="detalle-precio">{{ producto.price }} €</p>
-
-      <p class="detalle-disponibilidad">
-        {% if producto.active %}
-          <span class="disponible">Disponible</span>
+    <div class="detalle-info col-lg-6 col-12">
+      <h1 class="detalle-nombre mb-3">{{ producto.name }}</h1>
+      <p class="detalle-precio text-secondary-ecom mb-2">{{ producto.price }} €</p>
+      <p class="detalle-disponibilidad mb-3">
+        {% if producto.is_available %}
+            <span class="disponible text-success">Disponible</span>
+          {% if producto.is_low_stock %}
+            <span class="bajas-unidades text-warning ms-2">¡Quedan pocas unidades!</span>
+          {% endif %}
         {% else %}
-          <span class="no-disponible">Agotado</span>
+          <span class="no-disponible text-danger">Agotado</span>
         {% endif %}
       </p>
-
-      <p class="detalle-descripcion">{{ producto.description }}</p>
-
-      <ul class="detalle-datos">
+      <p class="detalle-descripcion card-text mb-4">{{ producto.description }}</p>
+      <ul class="detalle-datos list-unstyled mb-4">
         <li><strong>Género:</strong> {{ producto.get_gender_display }}</li>
         <li><strong>Categoría:</strong> {{ producto.category }}</li>
       </ul>
-
       {% if producto.active %}
-      <!-- Formulario de agregar al carrito -->
-      <form action="{% url 'cart:cart_add' producto.id %}" method="post" class="cart-add-form">
-        {% csrf_token %}
-        <p class="cart-quantity-control">
-          <span class="cart-quantity-label">Cantidad:</span>
-          <input type="number" name="quantity" value="1" min="1" max="99" class="cart-quantity-input">
-          <button type="submit" class="cart-update-btn">Agregar al carrito</button>
-        </p>
-      </form>
+        <!-- Formulario de agregar al carrito -->
+        <form action="{% url 'cart:cart_add' producto.id %}" method="post" class="cart-add-form">
+          {% csrf_token %}
+          <div class="cart-quantity-control d-flex align-items-center gap-3">
+            <label for="quantity" class="cart-quantity-label">Cantidad:</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="99" class="cart-quantity-input form-control w-auto">
+            <button type="submit" class="cart-update-btn btn btn-primary">Agregar al carrito</button>
+          </div>
+        </form>
       {% endif %}
-
     </div>
   </div>
 </div>

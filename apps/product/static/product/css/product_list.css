@@ -1,0 +1,377 @@
+/* ==========================================================================
+   product_list.css: Estilos para la lista de productos
+   ========================================================================== */
+
+/* -------------------- */
+/* Sidebar categorías 📑 */
+/* -------------------- */
+.sidebar {
+  background: var(--color-light-gray);
+  padding: 1.2rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  max-width: 240px; /* más compacto en desktop */
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+.categoria-lista li {
+  margin-bottom: 0.6rem;
+}
+
+.categoria-lista li a {
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-fast);
+}
+
+.categoria-lista li.activo a,
+.categoria-lista li a:hover {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+/* -------------------- */
+/* Sidebar responsive mejorado (móvil) */
+/* -------------------- */
+@media (max-width: 768px) {
+  .sidebar {
+    max-width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+  }
+
+  .categoria-lista {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+  }
+
+  .categoria-lista li {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .categoria-lista li a {
+    display: inline-block;
+    background: var(--color-bg);
+    border: 1px solid var(--color-light-gray);
+    border-radius: var(--border-radius-md);
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+  }
+
+  .categoria-lista li.activo a {
+    background: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+}
+
+/* -------------------- */
+/* Ordenar productos 🔽 */
+/* -------------------- */
+.ordenar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ordenar label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.ordenar select {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  padding: 0.5rem 2rem 0.5rem 0.75rem; /* Espacio para la flecha personalizada */
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-regular);
+  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  appearance: none; /* Elimina la flecha predeterminada */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23393E46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+.ordenar select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 173, 181, 0.2); /* Sombra suave con color de acento */
+}
+
+/* -------------------- */
+/* Grid de productos 🛍️ */
+/* -------------------- */
+.producto-card {
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-card:hover {
+  transform: translateY(-1px) scale(1.005);
+  box-shadow: var(--shadow-sm);
+}
+
+
+.producto-img img {
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  object-fit: cover;
+  height: 250px;
+  width: 100%;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+/* -------------------- */
+/* Descripción con blur y ver más */
+/* -------------------- */
+.descripcion-wrapper {
+  position: relative;
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.descripcion {
+  max-height: 3.6em; /* ~2 líneas */
+  overflow: hidden;
+  position: relative;
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+  transition: max-height 0.36s cubic-bezier(.2,.9,.3,1);
+  margin: 0;
+  padding-right: 0.5rem;
+}
+
+.descripcion::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2em;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), var(--color-bg));
+  pointer-events: none;
+}
+
+/* estado expandido */
+.descripcion.expandida {
+  max-height: 1000px;
+}
+
+.descripcion.expandida::after {
+  display: none;
+}
+
+/* -------------------- */
+/* BOTÓN Ver más (modernizado usando la paleta) */
+/* -------------------- */
+.ver-mas-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-accent);
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), transform 0.18s ease, box-shadow var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+  align-self: flex-start; /* que quede a la izquierda del contenido */
+  margin-left: 0.5rem;
+  /* pequeño contraste para que se distinga en fondos claros */
+  box-shadow: none;
+}
+
+/* icono (flecha) */
+.ver-mas-btn .icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  transition: transform 0.28s cubic-bezier(.2,.9,.3,1);
+  transform: rotate(0deg);
+  color: inherit; /* hereda currentColor */
+}
+
+/* Hover: se usa la paleta (color de fondo accent + texto claro) */
+.ver-mas-btn:hover,
+.ver-mas-btn:focus {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  outline: none;
+}
+
+/* Focus visible (accesibilidad) */
+.ver-mas-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-accent);
+}
+
+/* Estado "expandido" visual y rotación del icono */
+.ver-mas-btn[aria-expanded="true"] {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+.ver-mas-btn[aria-expanded="true"] .icon {
+  transform: rotate(-180deg);
+}
+
+/* responsive: en pantallas pequeñas el botón queda en la siguiente línea */
+@media (max-width: 576px) {
+  .descripción-wrapper {
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: flex-start;
+  }
+
+  .ver-mas-btn {
+    margin-left: 0;
+  }
+}
+
+/* -------------------- */
+/* Precio y metadatos */
+/* -------------------- */
+.precio {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+.disponibilidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.disponible {
+  font-weight: var(--font-weight-bold);
+}
+
+.bajas-unidades {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+}
+
+/* -------------------- */
+/* Botón agregar al carrito */
+/* -------------------- */
+.agregar-carrito {
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 1rem;
+  font-weight: var(--font-weight-medium);
+  transition: background var(--transition-smooth), transform 0.2s ease;
+  margin-top: auto;
+}
+
+.agregar-carrito:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.agregar-carrito-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* -------------------- */
+/* Paginación 📄 */
+/* -------------------- */
+.paginacion .pagination {
+  gap: 0.5rem; /* Espacio entre botones */
+}
+
+.paginacion .page-item {
+  margin: 0; /* Elimina márgenes predeterminados de Bootstrap */
+}
+
+.paginacion .page-link {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-medium);
+  transition: background var(--transition-smooth), color var(--transition-smooth), transform 0.2s ease, box-shadow var(--transition-smooth);
+}
+
+.paginacion .page-link:hover {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.paginacion .active .page-link {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.paginacion .disabled .page-link {
+  background: var(--color-light-gray);
+  color: var(--color-secondary);
+  border-color: var(--color-light-gray);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -------------------- */
+/* No hay productos ❌ */
+/* -------------------- */
+.no-productos {
+  background: var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+}

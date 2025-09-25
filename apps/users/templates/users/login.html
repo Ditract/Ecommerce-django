@@ -1,28 +1,58 @@
 {% extends "base.html" %}
-
 {% load static %}
 
+{% block extra_css %}
+  <!-- Los estilos ya están en components.css, no necesitamos CSS adicional -->
+{% endblock extra_css %}
+
 {% block content %}
-    <form method="POST">
-        <h1>Iniciar sesión</h1>
-        {% csrf_token %}
-        <label for="username">Usuario</label>
-        <input type="text" id="username" name="username" placeholder="Usuario" required>
+<div class="form-container">
+  <div class="form-header">
+    <h1 class="form-title">Iniciar Sesión</h1>
+    <p class="form-subtitle">Accede a tu cuenta</p>
+  </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Password" required>
+  <form method="post" novalidate>
+    {% csrf_token %}
 
-        {% if messages %}
-          <div class="user-message">
-            {% for message in messages %}
-              <p class="alert {{ message.tags }}">{{ message }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        <br>
-        <input type="submit" value="Entrar">
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username" class="form-label">
+        Usuario
+      </label>
+      <input type="text"
+             name="username"
+             id="username"
+             class="form-input"
+             placeholder="Nombre de usuario"
+             required>
+    </div>
 
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password" class="form-label">
+        Contraseña
+      </label>
+      <input type="password"
+             name="password"
+             id="password"
+             class="form-input"
+             placeholder="Contraseña"
+             required>
+    </div>
 
+    <!-- Botón de envío -->
+    <button type="submit" class="btn-primary">
+      Iniciar Sesión
+    </button>
+  </form>
 
-    </form>
+  <!-- Footer con enlace al registro -->
+  <div class="form-footer">
+    <p class="form-footer-text">
+      ¿No tienes cuenta?
+      <a href="{% url 'registro' %}" class="form-link">Regístrate aquí</a>
+    </p>
+  </div>
+</div>
 {% endblock content %}

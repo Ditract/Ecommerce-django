@@ -1,0 +1,356 @@
+/* ==========================================================================
+   checkout.css: Estilos específicos para la página de checkout
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* Contenedor Principal
+/* -------------------------------------------------------------------------- */
+.checkout-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header del Checkout
+/* -------------------------------------------------------------------------- */
+.checkout-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.checkout-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.checkout-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-regular);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Layout Principal
+/* -------------------------------------------------------------------------- */
+.checkout-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Formularios (Lado Izquierdo)
+/* -------------------------------------------------------------------------- */
+.checkout-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Secciones del Checkout
+/* -------------------------------------------------------------------------- */
+.checkout-section {
+  background: var(--color-bg);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+  background: var(--color-light-gray);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+/* Sobreescribir el form-container dentro de checkout para que no tenga borde/sombra */
+.checkout-section .form-container {
+  border: none;
+  box-shadow: none;
+  max-width: none;
+  margin: 0;
+  padding: 2rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form Row para campos lado a lado
+/* -------------------------------------------------------------------------- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Métodos de Pago
+/* -------------------------------------------------------------------------- */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-methods .form-radio-group {
+  background: var(--color-light-gray);
+  border: 2px solid var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  padding: 1rem;
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.payment-methods .form-radio-group:hover {
+  border-color: var(--color-accent);
+  background: rgba(0, 173, 181, 0.05);
+}
+
+.payment-methods .form-radio-group:has(input:checked) {
+  border-color: var(--color-accent);
+  background: rgba(0, 173, 181, 0.1);
+}
+
+.payment-methods .form-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  font-size: 1rem;
+}
+
+.payment-icon {
+  font-size: 1.5rem;
+}
+
+/* Campos adicionales de pago */
+.payment-details {
+  background: var(--color-light-gray);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  margin-top: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Acciones del Checkout
+/* -------------------------------------------------------------------------- */
+.checkout-actions {
+  margin-top: 2rem;
+}
+
+.checkout-actions .btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Resumen del Pedido (Sidebar Derecho)
+/* -------------------------------------------------------------------------- */
+.checkout-summary {
+  position: sticky;
+  top: 100px;
+}
+
+.summary-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.summary-title {
+  font-size: 1.4rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Items del Pedido
+/* -------------------------------------------------------------------------- */
+.order-items {
+  margin-bottom: 2rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+
+.item-quantity {
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+}
+
+.item-price {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Totales del Pedido
+/* -------------------------------------------------------------------------- */
+.order-totals {
+  padding: 1.5rem 0;
+  border-top: 2px solid var(--color-light-gray);
+  margin-bottom: 2rem;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.total-final {
+  border-top: 1px solid var(--color-light-gray);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.total-amount {
+  font-size: 1.4rem;
+  color: var(--color-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Información Adicional
+/* -------------------------------------------------------------------------- */
+.checkout-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+}
+
+.info-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.info-text {
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  line-height: 1.4;
+}
+
+.info-text strong {
+  color: var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive Design
+/* -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .checkout-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .checkout-summary {
+    position: static;
+    order: -1;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .checkout-title {
+    font-size: 2rem;
+  }
+
+  .section-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .checkout-section .form-container {
+    padding: 1.5rem;
+  }
+
+  .summary-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .checkout-section .form-container {
+    padding: 1rem;
+  }
+}

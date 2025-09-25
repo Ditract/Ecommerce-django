@@ -1,45 +1,70 @@
 {% load thumbnail %}
 
 {% if cart.items.exists %}
-  <ul class="cart-items">
+  <ul class="cart-items" data-cart-items="{{ cart.items.count }}">
     {% for item in cart.items.all %}
       <li class="cart-item">
         <div class="cart-item-details">
-          <!-- Imagen del producto -->
-          <div class="cart-item-image">
-            {% if item.product.image %}
-              {% thumbnail item.product.image "300x300" crop="center" as im %}
-                <img src="{{ im.url }}" alt="{{ item.product.name }}" loading="lazy"
-                     width="{{ im.width }}" height="{{ im.height }}">
-              {% endthumbnail %}
-            {% endif %}
-          </div>
-
-          <!-- Información del producto -->
-          <div class="cart-item-info">
+          <!-- Primera línea: Imagen y Quitar, con nombre debajo -->
+          <div class="cart-item-header">
+            <div class="cart-item-image">
+              {% if item.product.image %}
+                {% thumbnail item.product.image "300x300" crop="center" as im %}
+                  <img src="{{ im.url }}" alt="{{ item.product.name }}" loading="lazy"
+                       width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+              {% endif %}
+            </div>
+            <div class="cart-item-actions">
+              <button type="button" class="remove-item-btn"
+                      data-url="{% url 'cart:cart_remove' item.id %}"
+                      aria-label="Quitar del carrito">
+                Quitar
+              </button>
+            </div>
             <h4>{{ item.product.name }}</h4>
-            <p class="cart-item-price">
-              Precio: <span class="price-value">${{ item.price }}</span>
-            </p>
-            <p class="cart-quantity-control">
-              <span class="cart-quantity-label">Cantidad:</span>
-              <form action="{% url 'cart:cart_update' item.id %}" method="post" class="cart-update-form" data-item-id="{{ item.id }}">
-                {% csrf_token %}
-                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" class="cart-quantity-input">
-                <button type="submit" class="cart-update-btn">Actualizar</button>
-              </form>
-            </p>
-              <!--Mensaje de error por stock insuficiente-->
-            <div id="cartError-{{ item.id }}" class="cart-error"></div>
-
-            <p class="cart-subtotal">
-              Subtotal: <span class="subtotal-value">${{ item.subtotal }}</span>
-            </p>
           </div>
 
-          <!-- Acciones del item -->
-          <div class="cart-item-actions">
-            <a href="{% url 'cart:cart_remove' item.id %}" class="remove-item">Quitar del carrito</a>
+          <!-- Segunda línea: Cantidad y Actualizar -->
+          <div class="cart-item-controls">
+            <div class="cart-quantity-control">
+              <span class="cart-quantity-label">Cantidad:</span>
+              <form action="{% url 'cart:cart_update' item.id %}"
+                    method="post"
+                    class="cart-update-form"
+                    data-item-id="{{ item.id }}">
+                {% csrf_token %}
+                <input type="number"
+                       name="quantity"
+                       value="{{ item.quantity }}"
+                       min="1"
+                       max="99"
+                       class="cart-quantity-input"
+                       data-original-value="{{ item.quantity }}">
+                <button type="submit"
+                        class="cart-update-btn"
+                        aria-label="Actualizar cantidad">
+                  Actualizar
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Mensaje de error justo después de cantidad -->
+          <div id="cartError-{{ item.id }}" class="cart-error" style="display: none;">
+            <!-- Los mensajes se insertarán aquí vía JavaScript -->
+          </div>
+
+          <!-- Tercera línea: Subtotal e info de stock -->
+          <div class="cart-item-footer">
+            <p class="cart-subtotal">
+              Subtotal: <span class="subtotal-value">{{ item.subtotal }} €</span>
+            </p>
+
+            <!-- Info de stock disponible -->
+            <p class="cart-stock-info" style="font-size: 0.7rem; color: var(--color-secondary); margin: 0.2rem 0 0 0;">
+              Stock disponible: {{ item.product.stock }} unidades
+            </p>
           </div>
         </div>
       </li>
@@ -47,13 +72,11 @@
   </ul>
 
   <div class="cart-total">
-    <h3>Total: ${{ cart.total }}</h3>
+    <h3>Total: {{ cart.total }} €</h3>
     <a href="{% url 'cart:cart_detail' %}" class="view-cart-btn">Ir al Carrito</a>
-    <!-- Comentado hasta implementar checkout -->
-    <!-- <a href="#" class="checkout-btn">Proceder al Pago</a> -->
   </div>
 {% else %}
-  <div class="cart-empty">
+  <div class="cart-empty" data-cart-items="0">
     <p>Aún no hay productos en el carrito.</p>
     <a href="{% url 'cart:cart_detail' %}" class="view-cart-btn">Ir al Carrito</a>
   </div>

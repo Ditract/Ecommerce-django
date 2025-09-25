@@ -1,0 +1,152 @@
+/* ==========================================================================
+   product_list.css: Estilos específicos para la página de inicio (index.html)
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* Slider de Inicio 🖼️
+/* -------------------------------------------------------------------------- */
+.inicio-slider {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-light-gray); /* Color de fondo mientras carga la imagen */
+}
+
+.slide-item {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  width: 100%;
+}
+
+.slide-item.active {
+  display: block;
+  opacity: 1;
+}
+
+.slide-item img {
+  height: 600px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center; /* Asegura que la imagen esté centrada */
+}
+
+.slide-text {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem 2.5rem;
+  border-radius: var(--border-radius-md);
+  max-width: 600px;
+  width: 90%;
+}
+
+.slide-text h2 {
+  font-size: 2.8rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.slide-text p {
+  font-size: 1rem;
+  color: var(--color-secondary);
+  margin-top: 0.5rem;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  padding: 0.8rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--color-primary);
+  border: none;
+  transition: var(--transition-smooth);
+}
+
+.slider-btn:hover {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+}
+
+.prev-btn { left: 1.5rem; }
+.next-btn { right: 1.5rem; }
+
+/* -------------------------------------------------------------------------- */
+/* Sección de Categorías
+/* -------------------------------------------------------------------------- */
+.categoria-box {
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden; /* Necesario para el efecto de zoom en la imagen */
+}
+
+.categoria-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.categoria-box img {
+  height: 350px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.categoria-box:hover img {
+  transform: scale(1.05); /* Sutil efecto de zoom */
+}
+
+.categoria-enlace {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 1px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sección de Productos 👟
+/* -------------------------------------------------------------------------- */
+.titulo-productos {
+  font-size: 2.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive Adjustments
+/* -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .slide-item img { height: 500px; }
+  .slide-text h2 { font-size: 2.2rem; }
+}
+
+@media (max-width: 768px) {
+  .slide-item img { height: 400px; }
+  .slide-text { padding: 1.5rem; }
+  .slide-text h2 { font-size: 1.8rem; }
+  .slide-text p { font-size: 0.9rem; }
+  .categoria-box img { height: 250px; }
+  .titulo-productos { font-size: 1.8rem; }
+}
+
+@media (max-width: 576px) {
+  .slide-item img { height: 300px; }
+  .slide-text { padding: 1rem; max-width: 95%; }
+  .slide-text h2 { font-size: 1.5rem; }
+  .slider-btn { width: 40px; height: 40px; font-size: 1.4rem; }
+  .prev-btn { left: 0.5rem; }
+  .next-btn { right: 0.5rem; }
+}

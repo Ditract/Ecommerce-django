@@ -1,0 +1,500 @@
+/* ==========================================================================
+   base.css: Estilos globales, variables de tema y estilos para base.html
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* Variables del Tema (Theme Variables) 🎨
+/* -------------------------------------------------------------------------- */
+:root {
+  /* Paleta de colores moderna y elegante */
+  --color-primary: #222831;   /* Carbón oscuro para fondos y texto principal */
+  --color-secondary: #393E46; /* Gris medio para elementos secundarios */
+  --color-accent: #00ADB5;     /* Teal vibrante para acentos y llamadas a la acción */
+  --color-text: #EEEEEE;       /* Blanco roto para texto sobre fondos oscuros */
+  --color-bg: #FFFFFF;         /* Blanco puro para el fondo principal del cuerpo */
+  --color-light-gray: #F5F5F5; /* Gris muy claro para bordes o fondos sutiles */
+
+  /* Tipografía */
+  --font-primary: 'Poppins', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Sombras y Bordes */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  /* Transiciones */
+  --transition-fast: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Espaciado */
+  --section-padding: 4rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Estilos Base y Resets
+/* -------------------------------------------------------------------------- */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: 70px; /* Compensar navbar fijo */
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Navbar 🧭
+/* -------------------------------------------------------------------------- */
+.navbar {
+  background: rgba(255, 255, 255, 0.95); /* Más opaco para evitar problemas de lectura */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.8rem 2rem;
+  border-bottom: 1px solid var(--color-light-gray);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1020;
+  height: 70px; /* Altura fija para consistencia */
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand.nav-logo {
+  font-size: 1.6rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.navbar-brand.nav-logo:hover {
+  color: var(--color-accent);
+}
+
+.nav-left .nav-link {
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-medium);
+  margin: 0 1.2rem;
+  color: var(--color-secondary);
+  position: relative;
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Efecto de subrayado en hover/active */
+.nav-left .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: width var(--transition-smooth);
+}
+
+.nav-left .nav-link:hover::after,
+.nav-left .nav-link.active::after {
+  width: 100%;
+}
+
+.nav-left .nav-link.active {
+  color: var(--color-primary);
+}
+
+.nav-right {
+  gap: 0.8rem;
+}
+
+.nav-right .icon-btn {
+  padding: 0.6rem;
+  border-radius: 50%; /* Iconos circulares */
+  background-color: transparent;
+  transition: var(--transition-smooth);
+}
+
+.nav-right .icon-btn svg {
+  stroke: var(--color-secondary);
+  transition: var(--transition-smooth);
+}
+
+.nav-right .icon-btn:hover {
+  background-color: var(--color-light-gray);
+}
+
+.nav-right .icon-btn:hover svg {
+  stroke: var(--color-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* User Dropdown 👤
+/* -------------------------------------------------------------------------- */
+.user-dropdown {
+  position: relative;
+}
+
+/* Estilos principales del menu */
+.user-dropdown .user-menu {
+  position: absolute;
+  display: none;
+  z-index: 1070;
+  background: var(--color-bg);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 0.5rem;
+  min-width: 200px;
+  top: calc(100% + 10px);
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+/* Mostrar el menú cuando se añade la clase is-visible o show */
+.user-dropdown .user-menu.is-visible,
+.user-dropdown .user-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Mensajes de bienvenida y items */
+.user-dropdown .welcome-msg {
+  color: var(--color-secondary);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.user-dropdown .dropdown-item {
+  color: var(--color-secondary);
+  padding: 0.6rem 1rem;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-md);
+}
+
+.user-dropdown .dropdown-item:hover {
+  background: var(--color-light-gray);
+  color: var(--color-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mensajes Flash (Django Messages)
+/* -------------------------------------------------------------------------- */
+.user-message {
+  position: absolute;
+  top: 50%;
+  right: 60px; /* Espacio desde la derecha para no chocar con el dropdown */
+  transform: translateY(-50%); /* Centrar verticalmente */
+  z-index: 1025; /* Entre navbar (1020) y dropdown (1070) */
+  max-width: 300px; /* Evitar que sea muy ancho */
+  white-space: nowrap; /* Evitar que se rompa en varias líneas */
+}
+
+.user-message .alert {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 1rem;
+  margin: 0;
+  box-shadow: var(--shadow-md);
+  font-weight: var(--font-weight-medium);
+  font-size: 0.85rem;
+}
+
+.user-message .fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Cart Badge 🔔
+/* -------------------------------------------------------------------------- */
+.cart-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  transform: translate(50%, -50%);
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  padding: 2px 6px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  display: none; /* Oculto si está en 0 */
+  min-width: 18px;
+  height: 18px;
+  line-height: 14px;
+  text-align: center;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Footer
+/* -------------------------------------------------------------------------- */
+.footer {
+  background: var(--color-primary);
+  color: var(--color-text);
+  padding: var(--section-padding) 0;
+  font-size: 0.9rem;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footer-section h3 {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-section p,
+.footer-section a {
+  color: rgba(238, 238, 238, 0.8);
+  line-height: 1.6;
+}
+
+.footer-section a:hover {
+  color: var(--color-accent);
+}
+
+.footer-bottom {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-secondary);
+  color: rgba(238, 238, 238, 0.6);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Cart Sidebar 🛒
+/* -------------------------------------------------------------------------- */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+  z-index: 1040;
+}
+
+.cart-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh; /* Usar vh en lugar de 100% */
+  background: var(--color-bg);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform var(--transition-smooth);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Evitar scroll horizontal */
+}
+
+.cart-sidebar.open {
+  transform: translateX(0);
+}
+
+.cart-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-light-gray);
+  flex-shrink: 0;
+}
+
+.cart-sidebar-header h2 {
+  color: var(--color-primary);
+  font-size: 1.4rem;
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.cart-sidebar-content {
+  padding: 1.5rem;
+  color: var(--color-secondary);
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+  flex-grow: 1;
+  max-width: 100%; /* Asegurar que no exceda el ancho */
+}
+
+/* Prevenir overflow horizontal específicamente en elementos que pueden causarlo */
+.cart-sidebar-content .cart-items,
+.cart-sidebar-content .cart-item,
+.cart-sidebar-content form,
+.cart-sidebar-content input {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.close-cart-btn {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  cursor: pointer;
+}
+
+.close-cart-btn:hover {
+  color: var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive Adjustments 📱 - MEJORADO PARA MÓVIL
+/* -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0.8rem 0.5rem; /* Menos padding lateral */
+  }
+
+  .navbar .container-fluid {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Hamburguesa más a la izquierda */
+  .navbar-toggler {
+    order: 1;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    margin-left: 0.5rem; /* Más cerca del borde izquierdo */
+    transition: var(--transition-smooth); /* Animación más suave */
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  /* Logo centrado */
+  .nav-logo {
+    order: 2;
+    margin: 0 auto;
+    font-size: 1.4rem; /* Ligeramente más pequeño en móvil */
+  }
+
+  /* Iconos más a la derecha y más juntos */
+  .nav-right {
+    order: 3;
+    gap: 0.4rem; /* Más juntos entre ellos */
+    margin-right: 0.5rem; /* Más cerca del borde derecho */
+  }
+
+  /* menú colapsable */
+  .navbar-collapse {
+    background: var(--color-bg);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 0;
+    box-shadow: var(--shadow-md);
+    border-top: 1px solid var(--color-light-gray);
+    transition: var(--transition-smooth); /* Transición más suave */
+  }
+
+  .navbar-collapse .nav-left {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem; /* Más espacio entre elementos */
+    padding: 1rem 0;
+  }
+
+  /* Mensajes flash ajustados para móvil */
+  .user-message {
+    position: fixed;
+    top: 80px; /* Debajo del navbar */
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    max-width: none;
+    white-space: normal; /* Permitir wrap en móvil */
+    z-index: 1025;
+  }
+
+  .user-message .alert {
+    text-align: center;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-width: 576px) {
+  .navbar {
+    padding: 0.6rem 0.3rem;
+  }
+
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-right .icon-btn {
+    padding: 0.5rem;
+  }
+
+  .navbar-toggler {
+    padding: 0.3rem 0.5rem;
+    margin-left: 0.3rem;
+  }
+
+  .nav-right {
+    margin-right: 0.3rem;
+    gap: 0.2rem;
+  }
+
+  /* Carrito sidebar más estrecho en móviles muy pequeños */
+  .cart-sidebar {
+    max-width: 100%;
+  }
+
+  .cart-sidebar-content {
+    padding: 1rem;
+  }
+}
