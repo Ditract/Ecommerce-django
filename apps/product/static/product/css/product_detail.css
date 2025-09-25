@@ -1,0 +1,186 @@
+/* ==========================================================================
+   product_detail.css: Estilos específicos para la página de detalle de producto
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* Contenedor principal del detalle del producto */
+/* -------------------------------------------------------------------------- */
+.detalle-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 120px; /* Ajustado para evitar superposición con el navbar fijo */
+  gap: 2rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Imagen del producto 🖼️ */
+/* -------------------------------------------------------------------------- */
+.detalle-imagen img {
+  width: 100%;
+  border-radius: var(--border-radius-lg);
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-smooth);
+}
+
+.detalle-imagen img:hover {
+  transform: scale(1.03);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Información del producto */
+/* -------------------------------------------------------------------------- */
+.detalle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detalle-nombre {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.detalle-precio {
+  font-size: 1.6rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+.detalle-disponibilidad {
+  font-weight: var(--font-weight-medium);
+}
+
+.detalle-descripcion {
+  font-size: 1rem;
+  color: var(--color-secondary);
+  line-height: 1.5;
+}
+
+.detalle-datos li {
+  font-size: 0.95rem;
+  color: var(--color-primary);
+  margin-bottom: 0.4rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Formulario de agregar al carrito 🛒 */
+/* -------------------------------------------------------------------------- */
+.cart-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cart-quantity-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+
+.cart-quantity-input {
+  width: 80px; /* Ajustado para mejor usabilidad */
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: var(--font-weight-regular);
+  text-align: center;
+  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.cart-quantity-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 173, 181, 0.2); /* Sombra suave con color de acento */
+}
+
+/* Eliminar las flechas predeterminadas del input tipo number */
+.cart-quantity-input::-webkit-inner-spin-button,
+.cart-quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-quantity-input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.cart-update-btn {
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 1.2rem;
+  font-weight: var(--font-weight-medium);
+  transition: background var(--transition-smooth), transform 0.2s ease;
+}
+
+.cart-update-btn:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+  color: var(--color-text);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Disponibilidad */
+/* -------------------------------------------------------------------------- */
+.disponible {
+  color: #28a745; /* Verde */
+  font-weight: var(--font-weight-bold);
+}
+
+.no-disponible {
+  color: #dc3545; /* Rojo */
+  font-weight: var(--font-weight-bold);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive Adjustments 📱 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .detalle-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 100px; /* Ajustado para pantallas medianas */
+  }
+}
+
+@media (max-width: 576px) {
+  .detalle-nombre {
+    font-size: 1.6rem;
+  }
+  .detalle-precio {
+    font-size: 1.3rem;
+  }
+  .detalle-descripcion {
+    font-size: 0.95rem;
+  }
+  .cart-quantity-control {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cart-quantity-input {
+    width: 100%;
+  }
+  .cart-update-btn {
+    width: 100%;
+  }
+  .detalle-container {
+    margin-top: 80px; /* Ajustado para pantallas pequeñas */
+  }
+}
+
+/* Asegurar que el contenedor principal de la página no interfiera */
+body > .container-fluid,
+body > .container {
+  padding-top: 0 !important; /* Elimina cualquier padding-top no deseado */
+}

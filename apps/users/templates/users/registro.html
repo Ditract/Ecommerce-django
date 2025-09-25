@@ -1,48 +1,153 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de usuarios</title>
+{% extends "base.html" %}
+{% load static %}
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
-</head>
-<body>
+{% block extra_css %}
+  <!-- Los estilos ya están en components.css, no necesitamos CSS adicional -->
+{% endblock extra_css %}
 
-    <form method="post" novalidate>
-        <h1>Registro de usuario</h1>
-        {% csrf_token %}
+{% block content %}
+<div class="form-container">
+  <div class="form-header">
+    <h1 class="form-title">Registro</h1>
+    <p class="form-subtitle">Crea tu cuenta para empezar a comprar</p>
+  </div>
 
-        <!-- Mensajes generales -->
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="message {{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
 
-        <!-- Campos del formulario -->
-        {% for field in form %}
-            <div class="field-container">
-                {{ field.label_tag }}
-                {{ field }}
-
-                {% if field.help_text %}
-                    <small class="help-text">{{ field.help_text }}</small>
-                {% endif %}
-
-                {% if field.errors %}
-                    {% for error in field.errors %}
-                        <span class="field-error">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
+    <!-- Username -->
+    <div class="form-group">
+      <label for="{{ form.username.id_for_label }}" class="form-label">
+        {{ form.username.label }}
+      </label>
+      {{ form.username }}
+      {% if form.username.help_text %}
+        <small class="form-help-text">{{ form.username.help_text }}</small>
+      {% endif %}
+      {% if form.username.errors %}
+        {% for error in form.username.errors %}
+          <small class="form-error">{{ error }}</small>
         {% endfor %}
+      {% endif %}
+    </div>
 
-        <button type="submit">Registrar</button>
-    </form>
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="{{ form.first_name.id_for_label }}" class="form-label">
+        {{ form.first_name.label }}
+      </label>
+      {{ form.first_name }}
+      {% if form.first_name.help_text %}
+        <small class="form-help-text">{{ form.first_name.help_text }}</small>
+      {% endif %}
+      {% if form.first_name.errors %}
+        {% for error in form.first_name.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
 
-</body>
-</html>
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="{{ form.last_name.id_for_label }}" class="form-label">
+        {{ form.last_name.label }}
+      </label>
+      {{ form.last_name }}
+      {% if form.last_name.help_text %}
+        <small class="form-help-text">{{ form.last_name.help_text }}</small>
+      {% endif %}
+      {% if form.last_name.errors %}
+        {% for error in form.last_name.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="{{ form.email.id_for_label }}" class="form-label">
+        {{ form.email.label }}
+      </label>
+      {{ form.email }}
+      {% if form.email.help_text %}
+        <small class="form-help-text">{{ form.email.help_text }}</small>
+      {% endif %}
+      {% if form.email.errors %}
+        {% for error in form.email.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="{{ form.telefono.id_for_label }}" class="form-label">
+        {{ form.telefono.label }}
+      </label>
+      {{ form.telefono }}
+      {% if form.telefono.help_text %}
+        <small class="form-help-text">{{ form.telefono.help_text }}</small>
+      {% endif %}
+      {% if form.telefono.errors %}
+        {% for error in form.telefono.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Password 1 -->
+    <div class="form-group">
+      <label for="{{ form.password1.id_for_label }}" class="form-label">
+        {{ form.password1.label }}
+      </label>
+      {{ form.password1 }}
+      {% if form.password1.help_text %}
+        <small class="form-help-text">{{ form.password1.help_text }}</small>
+      {% endif %}
+      {% if form.password1.errors %}
+        {% for error in form.password1.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Password 2 -->
+    <div class="form-group">
+      <label for="{{ form.password2.id_for_label }}" class="form-label">
+        {{ form.password2.label }}
+      </label>
+      {{ form.password2 }}
+      {% if form.password2.help_text %}
+        <small class="form-help-text">{{ form.password2.help_text }}</small>
+      {% endif %}
+      {% if form.password2.errors %}
+        {% for error in form.password2.errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Errores no de campo específico -->
+    {% if form.non_field_errors %}
+      <div class="form-group">
+        {% for error in form.non_field_errors %}
+          <small class="form-error">{{ error }}</small>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Botón de envío -->
+    <button type="submit" class="btn-primary">
+      Crear Cuenta
+    </button>
+  </form>
+
+  <!-- Footer con enlace al login -->
+  <div class="form-footer">
+    <p class="form-footer-text">
+      ¿Ya tienes cuenta?
+      <a href="{% url 'login' %}" class="form-link">Inicia sesión aquí</a>
+    </p>
+  </div>
+</div>
+{% endblock content %}
