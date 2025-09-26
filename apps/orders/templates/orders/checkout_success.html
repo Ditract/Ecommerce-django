@@ -1,9 +1,22 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'orders/css/order.css' %}">
+{% endblock extra_css %}
 
 {% block content %}
-<div class="container text-center py-5">
-  <h2>¡Gracias por tu compra!</h2>
-  <p>Estamos validando tu pago. Te notificaremos por correo cuando sea aprobado.</p>
-  <a href="{% url 'home' %}" class="btn btn-primary mt-4">Volver al inicio</a>
-</div>
+<main class="centered-container">
+  <div class="success-box">
+    <div class="success-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    </div>
+    <h2>¡Gracias por tu compra!</h2>
+    <p>Hemos recibido tu pedido y estamos validando tu pago. Te notificaremos por correo electrónico cuando sea aprobado y tu pedido sea enviado.</p>
+    <a href="{% url 'home' %}" class="btn-primary" style="margin-top: 2rem;">Volver al inicio</a>
+  </div>
+</main>
 {% endblock %}

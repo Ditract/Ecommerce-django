@@ -1,356 +1,263 @@
 /* ==========================================================================
-   checkout.css: Estilos específicos para la página de checkout
+   order.css: Estilos para el proceso de compra (checkout)
    ========================================================================== */
 
 /* -------------------------------------------------------------------------- */
-/* Contenedor Principal
+/* Layout General de la Página de Checkout
 /* -------------------------------------------------------------------------- */
-.checkout-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.checkout-page {
+  background-color: var(--color-light-gray);
+  padding: var(--section-padding) 0;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Header del Checkout
-/* -------------------------------------------------------------------------- */
-.checkout-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.checkout-title {
-  font-size: 2.5rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.checkout-subtitle {
-  font-size: 1.1rem;
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-regular);
-  margin: 0;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Layout Principal
-/* -------------------------------------------------------------------------- */
-.checkout-content {
+.checkout-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Formularios (Lado Izquierdo)
-/* -------------------------------------------------------------------------- */
-.checkout-forms {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 1.5fr 1fr; /* Columna de formulario más ancha */
   gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Secciones del Checkout
+/* Columna del Formulario de Checkout
 /* -------------------------------------------------------------------------- */
-.checkout-section {
+.checkout-form-column {
   background: var(--color-bg);
   border: 1px solid var(--color-light-gray);
   border-radius: var(--border-radius-lg);
-  overflow: hidden;
+  padding: 2.5rem;
   box-shadow: var(--shadow-sm);
 }
 
-.section-header {
-  background: var(--color-light-gray);
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid var(--color-light-gray);
+.checkout-section {
+  margin-bottom: 2.5rem;
 }
 
-.section-title {
-  font-size: 1.4rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.checkout-section:last-of-type {
+  margin-bottom: 0;
 }
 
-.section-subtitle {
-  font-size: 0.95rem;
-  color: var(--color-secondary);
-  margin: 0;
-}
-
-/* Sobreescribir el form-container dentro de checkout para que no tenga borde/sombra */
-.checkout-section .form-container {
-  border: none;
-  box-shadow: none;
-  max-width: none;
-  margin: 0;
-  padding: 2rem;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Form Row para campos lado a lado
-/* -------------------------------------------------------------------------- */
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Métodos de Pago
-/* -------------------------------------------------------------------------- */
-.payment-methods {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.payment-methods .form-radio-group {
-  background: var(--color-light-gray);
-  border: 2px solid var(--color-light-gray);
-  border-radius: var(--border-radius-md);
-  padding: 1rem;
-  transition: var(--transition-fast);
-  cursor: pointer;
-}
-
-.payment-methods .form-radio-group:hover {
-  border-color: var(--color-accent);
-  background: rgba(0, 173, 181, 0.05);
-}
-
-.payment-methods .form-radio-group:has(input:checked) {
-  border-color: var(--color-accent);
-  background: rgba(0, 173, 181, 0.1);
-}
-
-.payment-methods .form-radio-label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  font-size: 1rem;
-}
-
-.payment-icon {
+.checkout-section h3 {
   font-size: 1.5rem;
-}
-
-/* Campos adicionales de pago */
-.payment-details {
-  background: var(--color-light-gray);
-  padding: 1.5rem;
-  border-radius: var(--border-radius-md);
-  margin-top: 1rem;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Acciones del Checkout
-/* -------------------------------------------------------------------------- */
-.checkout-actions {
-  margin-top: 2rem;
-}
-
-.checkout-actions .btn-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Resumen del Pedido (Sidebar Derecho)
-/* -------------------------------------------------------------------------- */
-.checkout-summary {
-  position: sticky;
-  top: 100px;
-}
-
-.summary-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-light-gray);
-  border-radius: var(--border-radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-md);
-}
-
-.summary-title {
-  font-size: 1.4rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   margin-bottom: 1.5rem;
-  text-align: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-light-gray);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Items del Pedido
-/* -------------------------------------------------------------------------- */
-.order-items {
-  margin-bottom: 2rem;
+/* Aplicar estilos a los inputs/selects generados por Django {{ form }} */
+.checkout-form-column .form-group input,
+.checkout-form-column .form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--color-light-gray);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  color: var(--color-primary);
+  transition: var(--transition-fast);
+  box-sizing: border-box;
 }
 
-.order-item {
+.checkout-form-column .form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23393E46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.checkout-form-column .form-group input:focus,
+.checkout-form-column .form-group select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 173, 181, 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Columna del Resumen del Pedido
+/* -------------------------------------------------------------------------- */
+.order-summary-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  position: sticky; /* Se queda fijo al hacer scroll */
+  top: 100px; /* Espacio desde el navbar */
+  height: fit-content;
+}
+
+.order-summary-card h3 {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.summary-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.summary-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid var(--color-light-gray);
+  font-size: 0.9rem;
 }
 
-.order-item:last-child {
+.summary-item:last-child {
   border-bottom: none;
 }
 
 .item-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  color: var(--color-secondary);
 }
 
-.item-name {
+.item-info span {
   font-weight: var(--font-weight-medium);
   color: var(--color-primary);
 }
 
-.item-quantity {
-  font-size: 0.9rem;
-  color: var(--color-secondary);
-}
-
 .item-price {
   font-weight: var(--font-weight-bold);
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Totales del Pedido
-/* -------------------------------------------------------------------------- */
-.order-totals {
-  padding: 1.5rem 0;
+.summary-totals {
   border-top: 2px solid var(--color-light-gray);
-  margin-bottom: 2rem;
+  padding-top: 1.5rem;
 }
 
 .total-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-medium);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
 }
 
-.total-final {
-  border-top: 1px solid var(--color-light-gray);
+.total-row .label {
+  color: var(--color-secondary);
+}
+
+.total-row .value {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+
+.grand-total {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
   margin-top: 1rem;
   padding-top: 1rem;
-  font-size: 1.2rem;
-  color: var(--color-primary);
-  font-weight: var(--font-weight-bold);
+  border-top: 1px solid var(--color-light-gray);
 }
 
-.total-amount {
-  font-size: 1.4rem;
+.grand-total .value {
   color: var(--color-accent);
 }
 
 /* -------------------------------------------------------------------------- */
-/* Información Adicional
+/* Página de Éxito y Subir Comprobante
 /* -------------------------------------------------------------------------- */
-.checkout-info {
+.centered-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--section-padding) 1rem;
 }
 
-.info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: var(--color-light-gray);
-  border-radius: var(--border-radius-md);
+.success-box,
+.upload-box {
+  background: var(--color-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 3rem;
+  text-align: center;
+  max-width: 550px;
+  width: 100%;
+  border-top: 4px solid var(--color-accent);
 }
 
-.info-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.success-box .success-icon {
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
 }
 
-.info-text {
-  font-size: 0.9rem;
+.success-box h2 {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.success-box p {
   color: var(--color-secondary);
-  line-height: 1.4;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-.info-text strong {
+/* Estilos para el formulario de subir comprobante */
+.upload-box .form-group {
+  text-align: left;
+}
+
+.upload-box .order-details {
+  background-color: var(--color-light-gray);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.upload-box .order-details p {
+  margin: 0.5rem 0;
+  color: var(--color-secondary);
+}
+
+.upload-box .order-details strong {
   color: var(--color-primary);
 }
 
 /* -------------------------------------------------------------------------- */
-/* Responsive Design
+/* Responsive
 /* -------------------------------------------------------------------------- */
 @media (max-width: 992px) {
-  .checkout-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  .checkout-layout {
+    grid-template-columns: 1fr; /* Apilar columnas en pantallas medianas */
   }
 
-  .checkout-summary {
-    position: static;
-    order: -1;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
+  .order-summary-card {
+    position: static; /* Quitar el sticky */
+    top: auto;
   }
 }
 
 @media (max-width: 768px) {
-  .checkout-container {
-    padding: 1rem 0.5rem;
+  .checkout-page {
+    padding: 2rem 0;
   }
 
-  .checkout-title {
-    font-size: 2rem;
-  }
-
-  .section-header {
-    padding: 1rem 1.5rem;
-  }
-
-  .checkout-section .form-container {
+  .checkout-form-column {
     padding: 1.5rem;
   }
 
-  .summary-card {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .checkout-title {
-    font-size: 1.5rem;
+  .success-box,
+  .upload-box {
+    padding: 2rem 1.5rem;
   }
 
-  .section-title {
-    font-size: 1.2rem;
-  }
-
-  .checkout-section .form-container {
-    padding: 1rem;
+  .success-box h2 {
+    font-size: 1.6rem;
   }
 }
