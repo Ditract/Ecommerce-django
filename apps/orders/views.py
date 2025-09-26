@@ -18,7 +18,7 @@ from .utils import generar_numero_unico
 
 # Configurar logging
 logger = logging.getLogger(__name__)
-
+SHIPPING_COST = 15
 
 @login_required
 @transaction.atomic
@@ -107,7 +107,7 @@ def checkout_view(request):
         'cart': cart,
         'address_form': address_form,
         'payment_form': payment_form,
-        'shipping_cost': 8000,  # Centralizar costo de envío
+        'shipping_cost': SHIPPING_COST,
     }
     return render(request, 'orders/checkout.html', context)
 
@@ -130,7 +130,7 @@ def _create_new_order(user, cart, address_form):
     address.save()
 
     # Crear orden
-    shipping_cost = 8000  # Centralizar costo de envío
+    shipping_cost = SHIPPING_COST
     order = Order.objects.create(
         user=user,
         number=generar_numero_unico(),
@@ -199,7 +199,7 @@ def subir_comprobante_view(request, order_number):
                 # Actualizar pago existente
                 payment.comprobante = form.cleaned_data['comprobante']
 
-                # Actualizar método si se proporcionó
+
                 if 'method' in form.cleaned_data and form.cleaned_data['method']:
                     payment.method = form.cleaned_data['method']
 
@@ -226,7 +226,7 @@ def subir_comprobante_view(request, order_number):
         'form': form,
         'order': order,
         'payment': payment,
-        'can_change_method': True,  # Permitir cambio de método en esta etapa
+        'can_change_method': True,
     }
     return render(request, 'orders/subir_comprobante.html', context)
 
@@ -244,7 +244,7 @@ def checkout_success_view(request):
     Returns:
         HttpResponse: Renderiza checkout_success.html
     """
-    # Opcional: Obtener la última orden del usuario para mostrar detalles
+
     latest_order = Order.objects.filter(
         user=request.user,
         status__in=['PRO', 'PEN']
@@ -252,6 +252,6 @@ def checkout_success_view(request):
 
     context = {
         'latest_order': latest_order,
-        'support_email': 'soporte@tutienda.com',  # Centralizar contacto
+        'support_email': 'soporte@tutienda.com',
     }
     return render(request, 'orders/checkout_success.html', context)

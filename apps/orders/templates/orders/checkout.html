@@ -6,196 +6,75 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="checkout-container">
-  <div class="checkout-header">
-    <h1 class="checkout-title">Finalizar Compra</h1>
-    <p class="checkout-subtitle">Completa los datos para procesar tu pedido</p>
-  </div>
-
-  <div class="checkout-content">
-    <!-- Formularios de la izquierda -->
-    <div class="checkout-forms">
-      <form method="post" novalidate>
+<main class="checkout-page">
+  <div class="checkout-layout">
+    <div class="checkout-form-column">
+      <form method="post" class="checkout-form">
         {% csrf_token %}
 
-        <!-- Sección de Dirección -->
-        <div class="checkout-section">
-          <div class="section-header">
-            <h2 class="section-title">Dirección de Envío</h2>
-            <p class="section-subtitle">¿Dónde quieres recibir tu pedido?</p>
-          </div>
-
-          <div class="form-container">
-            <!-- Aquí irían los campos del address_form -->
-            <!-- Ejemplo de campos comunes de dirección -->
-
+        <section class="checkout-section">
+          <h3>Dirección de Envío</h3>
+          {% for field in address_form %}
             <div class="form-group">
-              <label for="direccion" class="form-label">Dirección Completa</label>
-              <input type="text" name="direccion" id="direccion" class="form-input"
-                     placeholder="Calle, número, piso, departamento">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  <span class="form-error">{{ error }}</span>
+                {% endfor %}
+              {% endif %}
             </div>
+          {% endfor %}
+        </section>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="ciudad" class="form-label">Ciudad</label>
-                <input type="text" name="ciudad" id="ciudad" class="form-input"
-                       placeholder="Ciudad">
-              </div>
-              <div class="form-group">
-                <label for="codigo_postal" class="form-label">Código Postal</label>
-                <input type="text" name="codigo_postal" id="codigo_postal" class="form-input"
-                       placeholder="CP">
-              </div>
-            </div>
-
+        <section class="checkout-section">
+          <h3>Método de Pago</h3>
+          {% for field in payment_form %}
             <div class="form-group">
-              <label for="telefono_entrega" class="form-label">Teléfono de Contacto</label>
-              <input type="tel" name="telefono_entrega" id="telefono_entrega" class="form-input"
-                     placeholder="Teléfono para coordinar la entrega">
-              <small class="form-help-text">Necesario para coordinar la entrega</small>
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+               {% if field.errors %}
+                {% for error in field.errors %}
+                  <span class="form-error">{{ error }}</span>
+                {% endfor %}
+              {% endif %}
             </div>
+          {% endfor %}
+        </section>
 
-            <div class="form-group">
-              <label for="notas_entrega" class="form-label">Notas de Entrega</label>
-              <textarea name="notas_entrega" id="notas_entrega" class="form-textarea"
-                        placeholder="Instrucciones adicionales (opcional)"></textarea>
-              <small class="form-help-text">Cualquier información adicional para el delivery</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sección de Pago -->
-        <div class="checkout-section">
-          <div class="section-header">
-            <h2 class="section-title">Método de Pago</h2>
-            <p class="section-subtitle">Elige cómo quieres pagar</p>
-          </div>
-
-          <div class="form-container">
-            <!-- Métodos de pago -->
-            <div class="payment-methods">
-              <div class="form-radio-group">
-                <input type="radio" name="metodo_pago" id="efectivo" value="efectivo" class="form-radio">
-                <label for="efectivo" class="form-radio-label">
-                  <span class="payment-icon">💵</span>
-                  Pago en efectivo al recibir
-                </label>
-              </div>
-
-              <div class="form-radio-group">
-                <input type="radio" name="metodo_pago" id="transferencia" value="transferencia" class="form-radio">
-                <label for="transferencia" class="form-radio-label">
-                  <span class="payment-icon">🏦</span>
-                  Transferencia bancaria
-                </label>
-              </div>
-
-              <div class="form-radio-group">
-                <input type="radio" name="metodo_pago" id="tarjeta" value="tarjeta" class="form-radio">
-                <label for="tarjeta" class="form-radio-label">
-                  <span class="payment-icon">💳</span>
-                  Tarjeta de crédito/débito
-                </label>
-              </div>
-            </div>
-
-            <!-- Campos adicionales para tarjeta (se mostrarían con JS) -->
-            <div id="tarjeta-fields" class="payment-details" style="display: none;">
-              <div class="form-group">
-                <label for="numero_tarjeta" class="form-label">Número de Tarjeta</label>
-                <input type="text" name="numero_tarjeta" id="numero_tarjeta" class="form-input"
-                       placeholder="1234 5678 9012 3456">
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="fecha_vencimiento" class="form-label">Vencimiento</label>
-                  <input type="text" name="fecha_vencimiento" id="fecha_vencimiento" class="form-input"
-                         placeholder="MM/AA">
-                </div>
-                <div class="form-group">
-                  <label for="cvv" class="form-label">CVV</label>
-                  <input type="text" name="cvv" id="cvv" class="form-input"
-                         placeholder="123">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="nombre_tarjeta" class="form-label">Nombre en la Tarjeta</label>
-                <input type="text" name="nombre_tarjeta" id="nombre_tarjeta" class="form-input"
-                       placeholder="Como aparece en la tarjeta">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botón de envío -->
-        <div class="checkout-actions">
-          <button type="submit" class="btn-primary">
-            <span class="btn-text">Confirmar Pedido</span>
-            <span class="btn-icon">🛒</span>
-          </button>
-        </div>
+        <button type="submit" class="btn-primary">Confirmar y Pagar</button>
       </form>
     </div>
 
-    <!-- Resumen del carrito (sidebar derecho) -->
-    <div class="checkout-summary">
-      <div class="summary-card">
-        <h2 class="summary-title">Resumen del Pedido</h2>
-
-        <!-- Items del carrito -->
-        <div class="order-items">
+    <div class="order-summary-column">
+      <div class="order-summary-card">
+        <h3>Resumen del Pedido</h3>
+        <ul class="summary-items">
           {% for item in cart.items.all %}
-            <div class="order-item">
-              <div class="item-info">
-                <span class="item-name">{{ item.product.name }}</span>
-                <span class="item-quantity">× {{ item.quantity }}</span>
-              </div>
-              <span class="item-price">${{ item.get_subtotal }}</span>
+          <li class="summary-item">
+            <div class="item-info">
+              <span>{{ item.quantity }} x</span> {{ item.product.name }}
             </div>
+            <div class="item-price">${{ item.product.price }}</div>
+          </li>
           {% endfor %}
-        </div>
-
-        <!-- Totales -->
-        <div class="order-totals">
+        </ul>
+        <div class="summary-totals">
           <div class="total-row">
-            <span>Subtotal</span>
-            <span>${{ cart.get_subtotal }}</span>
+            <span class="label">Subtotal:</span>
+            <span class="value">${{ cart.total }}</span>
           </div>
           <div class="total-row">
-            <span>Envío</span>
-            <span>$8.000</span>
+            <span class="label">Envío:</span>
+            <span class="value">${{ shipping_cost }}</span>
           </div>
-          <div class="total-row total-final">
-            <span>Total</span>
-            <span class="total-amount">${{ cart.get_subtotal|add:8000 }}</span>
-          </div>
-        </div>
-
-        <!-- Información adicional -->
-        <div class="checkout-info">
-          <div class="info-item">
-            <span class="info-icon">🚚</span>
-            <div class="info-text">
-              <strong>Envío gratis</strong> en compras superiores a $50.000
-            </div>
-          </div>
-          <div class="info-item">
-            <span class="info-icon">🔒</span>
-            <div class="info-text">
-              <strong>Compra segura</strong> - Tus datos están protegidos
-            </div>
-          </div>
-          <div class="info-item">
-            <span class="info-icon">↩️</span>
-            <div class="info-text">
-              <strong>Devoluciones</strong> hasta 30 días después
-            </div>
+          <div class="total-row grand-total">
+            <span class="label">Total:</span>
+            <span class="value">${{ cart.total|add:shipping_cost }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-{% endblock content %}
+</main>
+{% endblock %}

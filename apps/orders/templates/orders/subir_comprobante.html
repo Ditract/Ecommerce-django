@@ -1,25 +1,39 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'orders/css/order.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
-<div class="checkout-container">
-  <h2>Subir Comprobante de Pago</h2>
-  <p><strong>Pedido:</strong> {{ order.number }}</p>
-  <p><strong>Total a pagar:</strong> {{ order.total }} COP</p>
-
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-      {{ form.method.label_tag }}<br>
-      {{ form.method }}
+<main class="centered-container">
+  <div class="upload-box form-container" style="max-width: 500px;"> <div class="form-header">
+      <h2 class="form-title">Subir Comprobante</h2>
+      <p class="form-subtitle">Completa los datos para confirmar tu pago.</p>
     </div>
 
-    <div class="form-group">
-      {{ form.comprobante.label_tag }}<br>
-      {{ form.comprobante }}
+    <div class="order-details">
+      <p><strong>Número de Pedido:</strong> {{ order.number }}</p>
+      <p><strong>Total a Pagar:</strong> ${{ order.total }} COP</p>
     </div>
 
-    <button type="submit" class="btn btn-primary">Enviar Comprobante</button>
-  </form>
-</div>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="{{ form.method.id_for_label }}" class="form-label">{{ form.method.label }}</label>
+        {{ form.method }}
+        {% if form.method.errors %}<span class="form-error">{{ form.method.errors.0 }}</span>{% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.comprobante.id_for_label }}" class="form-label">{{ form.comprobante.label }}</label>
+        {{ form.comprobante }}
+        {% if form.comprobante.errors %}<span class="form-error">{{ form.comprobante.errors.0 }}</span>{% endif %}
+      </div>
+
+      <button type="submit" class="btn-primary" style="margin-top: 1rem;">Enviar Comprobante</button>
+    </form>
+  </div>
+</main>
 {% endblock %}
